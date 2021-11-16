@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+// a
 
 const average = require('../src/average');
 
