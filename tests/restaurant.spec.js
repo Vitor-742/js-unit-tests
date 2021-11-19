@@ -1,4 +1,4 @@
-const createMenu = require('../src/restaurant');
+const {createMenu, meuRestaurante} = require('../src/restaurant');
  
 /*
   Você é responsável por escrever o código do sistema de pedidos de um restaurante. Deve ser possível, através desse sistema, cadastrar um menu. Dado que um menu foi cadastrado, o sistema deve disponibilizar um objeto através do qual se consegue:
@@ -46,7 +46,22 @@ const createMenu = require('../src/restaurant');
 
 describe('10 - Implemente os casos de teste e a função `createMenu`', () => {
   it('Verifica se a função `createMenu` tem o comportamento esperado', () => {
-    fail('Teste vazio!');
+    expect(typeof createMenu().fetchMenu).toBe('function')
+    expect(Object.keys(meuRestaurante.fetchMenu())).toEqual(['food', 'drinks'])
+    expect(meuRestaurante.fetchMenu()).toEqual({
+      food: {'coxinha': 3.90, 'sanduiche': 9.90},
+      drinks: {'agua': 3.90, 'cerveja': 6.90}
+    })
+    expect(meuRestaurante.consumption).toEqual([])
+    meuRestaurante.order('coxinha')
+    expect(meuRestaurante.consumption).toContain('coxinha')
+    meuRestaurante.order("agua")
+    meuRestaurante.order("sanduiche")
+    expect(meuRestaurante.consumption).toEqual(["coxinha", "agua", "sanduiche"])
+    meuRestaurante.order("coxinha")
+    expect(meuRestaurante.consumption).toEqual(["coxinha", "agua", 'sanduiche', "coxinha"])
+    expect(meuRestaurante.pay()).toBe(23.76)
+
     // TESTE 1: Verifique se o retorno da função createMenu() é um objeto que possui a
     // chave fetchMenu, a qual tem como valor uma função.
     // ```
